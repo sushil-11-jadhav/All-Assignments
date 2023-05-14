@@ -1,0 +1,15 @@
+version: "3"
+services:
+  httpd:
+    image: "httpd"
+    ports:
+      - "80-82:80"
+    volumes:
+      - "/mnt:/usr/local/apache2/htdocs/"
+
+  tomcat:
+    image: "tomcat:9"
+    ports:
+      - "8080-8082:8080"
+    volumes:
+      - "/mnt/gol/game-of-life/gameoflife-web/target/:/usr/local/tomcat/webapps"

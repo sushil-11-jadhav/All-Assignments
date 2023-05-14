@@ -1,0 +1,24 @@
+pipeline {
+agent {
+	label {
+		label "slave"
+		customWorkspace "/mnt/gol"
+		
+	}
+	}
+		stages {
+			stage ("stage1") {
+		
+				steps {
+						sh "cp /mnt/gol/gameoflife-web/target/gameoflife.war /mnt/tomcat/apache-tomcat-9.0.74/webapps"
+						sh "cd /mnt/tomcat/apache-tomcat-9.0.74/bin"
+						sh "./startup.sh"
+
+				}
+			
+			}
+		
+		}
+
+
+}

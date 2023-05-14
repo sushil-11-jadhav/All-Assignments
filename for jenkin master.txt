@@ -1,0 +1,16 @@
+yum install java-1.8.0-openjdk-devel.x86_64 -y
+yum install git -y
+yum install maven -y
+yum install docker -y
+cd /mnt
+mkdir tomcat
+cd /mnt/tomcat
+wget https://dlcdn.apache.org/tomcat/tomcat-9/v9.0.74/bin/apache-tomcat-9.0.74.zip
+unzip /mnt/tomcat/apache-tomcat-9.0.74.zip
+rm -rf /mnt/tomcat/apache-tomcat-9.0.74.zip
+chmod -R 777 /mnt/tomcat/apache-tomcat-9.0.74/
+cd /mnt/tomcat/apache-tomcat-9.0.74/webapps/
+wget https://get.jenkins.io/war-stable/2.346.3/jenkins.war
+cd /mnt/tomcat/apache-tomcat-9.0.74/bin/
+./startup.sh
+
