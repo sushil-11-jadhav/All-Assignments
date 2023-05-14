@@ -1,0 +1,16 @@
+pipeline {
+	agent {
+		label {
+			label "built-in"
+			customWorkspace "/mnt/pqr"
+		}
+	}
+	stages {
+		stage ("deployed") {
+			steps {
+					sh "service docker start"
+					sh "docker run -itdp 8081:8080 sushiljadhav11/multistage:1.0 "
+			}
+		}
+	}
+}
