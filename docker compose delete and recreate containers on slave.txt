@@ -1,0 +1,44 @@
+pipeline {
+	agent {
+		label {
+			label "built-in"
+			customWorkspace "/mnt/gol"
+		}
+	}
+	stages {
+		stage ("creating WAR") {
+			steps {
+					// sh "cd /mnt/gol"
+					// sh "mvn clean install"
+					sh "scp -i /mnt/keys/my.pem /mnt/gol/gameoflife-web/target/gameoflife.war ec2-user@172.31.4.20:/home/ec2-user"
+					sh "scp -i /mnt/keys/my.pem /mnt/project/docker-compose.yaml ec2-user@172.31.4.20:/home/ec2-user"
+			}
+		}
+		stage ("deploying on slave ssh") {
+			agent {
+				label {
+					label "slave ssh"
+				}
+			}
+			steps {
+					sh "sudo service docker start"
+					sh "sudo cd /home/ec2-user/"
+					sh "sudo docker-compose down"
+					sh "sudo docker-compose up -d --scale tomcat=2"
+			}
+		}
+		
+	}   
+}
+
+
+my docker-compose.yaml
+
+version: "3"
+services:
+  tomcat:
+    image: "tomcat:9.0.74"
+    ports:
+      - "8081-8082:8080"
+    volumes:
+      - "/home/ec2-user:/usr/local/tomcat/webapps"
