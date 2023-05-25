@@ -1,0 +1,26 @@
+---
+#using for docker
+
+
+- hosts: dev
+  user: sushil
+  become: yes
+  connection: ssh
+  gather_facts: yes
+
+
+  tasks:
+    - name: install docker
+      command: yum install docker -y
+
+    - name: start docker
+      action: service name=docker state=started
+
+    - name: crate docker volume
+      command: docker volume create file
+
+    - name: create container
+      command: docker run -itdv file:/usr/local/tomcat/webapps -p 8080:8080 tomcat:9
+
+    - name: copy archive
+      action: copy src=/mnt/golarchive/gameoflife.war dest=/var/lib/docker/volumes/file/_data/
